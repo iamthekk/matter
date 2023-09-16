@@ -1,0 +1,33 @@
+{
+  "name": "matter",
+  "version": "1.0.1",
+  "description": "<div align=\"center\">\r \t<img src=\".moonwave/static/logo.svg\" alt=\"Matter\" width=\"600\" />\r \t<br><br><br>\r \t<p>A modern ECS library for Roblox</p>\r \t<a href=\"https://eryn.io/matter\"><strong>View docs &rarr;</strong></a>\r   <br><br><br>",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "example",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "files": [
+    "build",
+    "lib",
+    "packages",
+    "moonwave.toml",
+    "default.project.json"
+  ],
+  "scripts": {
+    "merge": "merge_rojo_config",
+    "postinstall": "npm run merge && npm run doc:link",
+    "prepack": "moonwave build",
+    "doc:link": "symlink_modules_doc",
+    "doc:fix": "fix_moonwave",
+    "doc:dev": "moonwave dev --no-open",
+    "doc": "http-server doc_modules -p 4000 -a localhost -s -o ./%npm_package_name% -P http://localhost:3000"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "wtm.tangsengscripts": "^1.0.10"
+  }
+}
