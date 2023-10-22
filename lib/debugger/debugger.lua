@@ -10,7 +10,7 @@ local mouseHighlight = require(script.Parent.mouseHighlight)
 local clientBindings = require(script.Parent.clientBindings)
 local hookWorld = require(script.Parent.hookWorld)
 
-local customWidgetConstructors: {[string]: any} = {
+local customWidgetConstructors: { [string]: any } = {
 	panel = require(script.Parent.widgets.panel),
 	selectionList = require(script.Parent.widgets.selectionList),
 	container = require(script.Parent.widgets.container),
@@ -332,6 +332,11 @@ function Debugger:autoInitialize(loop)
 
 	self.loop:addMiddleware(function(nextFn, eventName)
 		return function()
+			-- fix bug with fixupdate(kk)
+			if eventName == "FixedUpdate" then
+				return
+			end
+
 			if not self._seenEvents[eventName] then
 				self._seenEvents[eventName] = true
 				table.insert(self._eventOrder, eventName)
