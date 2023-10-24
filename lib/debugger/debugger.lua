@@ -334,6 +334,7 @@ function Debugger:autoInitialize(loop)
 		return function()
 			-- fix bug with fixupdate(kk)
 			if eventName == "FixedUpdate" then
+				nextFn()
 				return
 			end
 
