@@ -7,7 +7,10 @@ local recentErrorLastTime = 0
 
 local function systemFn(system: System)
 	if type(system) == "table" then
-		return system.system
+		if system.system then
+			return system.system
+		end
+		return nil
 	end
 
 	return system
@@ -386,6 +389,10 @@ function Loop:begin(events)
 					end
 
 					local fn = systemFn(system)
+					if not fn then
+						return
+					end
+
 					debug.profilebegin("system: " .. systemName(system))
 
 					local thread = coroutine.create(fn)
