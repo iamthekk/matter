@@ -47,20 +47,24 @@ local DIAGNOSTIC_COMPONENT_MARKER = {}
 
 local function newComponent(name, defaultData)
 	name = name or debug.info(2, "s") .. "@" .. debug.info(2, "l")
-
 	assert(
-		defaultData == nil or type(defaultData) == "table",
-		"if component default data is specified, it must be a table"
+		defaultData == nil or type(defaultData) == "table" or type(defaultData) == "function",
+		"if component default data is specified, it must be a table or function"
 	)
 
 	local component = {}
 	component.__index = component
 
-	function component.new(data)
-		data = data or {}
-
+	function component.new(...)
+		local data = nil
 		if defaultData then
-			data = merge(defaultData, data)
+			if type(defaultData) == "function" then
+				data = defaultData(...)
+			else
+				local t = { ... }
+				data = t[1] or {}
+				data = merge(defaultData, data)
+			end
 		end
 
 		return table.freeze(setmetatable(data, component))
