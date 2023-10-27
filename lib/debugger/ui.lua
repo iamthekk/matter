@@ -98,9 +98,11 @@ local function ui(debugger, loop)
 				if selectedState.isWorld then
 					if worldViewOpen and debugger.debugWorld == selectedState.object then
 						debugger.debugWorld = nil
+						debugger._wordViewOpen = false
 						setWorldViewOpen(false)
 					else
 						debugger.debugWorld = selectedState.object
+						debugger._wordViewOpen = true
 						setWorldViewOpen(true)
 					end
 				else

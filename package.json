@@ -1,6 +1,6 @@
 {
   "name": "matter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "<div align=\"center\">\r \t<img src=\".moonwave/static/logo.svg\" alt=\"Matter\" width=\"600\" />\r \t<br><br><br>\r \t<p>A modern ECS library for Roblox</p>\r \t<a href=\"https://eryn.io/matter\"><strong>View docs &rarr;</strong></a>\r   <br><br><br>",
   "main": "index.js",
   "directories": {
