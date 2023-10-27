@@ -25,6 +25,7 @@ local customWidgetConstructors: { [string]: any } = {
 	queryInspect = require(script.Parent.widgets.queryInspect),
 	codeText = require(script.Parent.widgets.codeText),
 	errorInspect = require(script.Parent.widgets.errorInspect),
+	textBox = require(script.Parent.widgets.textBox),
 }
 
 local IS_SERVER = RunService:IsServer()
@@ -332,12 +333,9 @@ function Debugger:autoInitialize(loop)
 
 	self.loop:addMiddleware(function(nextFn, eventName)
 		return function()
-			-- fix bug with fixupdate(kk)
 			if eventName == "FixedUpdate" then
-				nextFn()
 				return
 			end
-
 			if not self._seenEvents[eventName] then
 				self._seenEvents[eventName] = true
 				table.insert(self._eventOrder, eventName)
