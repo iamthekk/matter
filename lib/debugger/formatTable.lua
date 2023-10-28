@@ -3,6 +3,11 @@ local FormatMode = {
 	Long = "Long",
 }
 local function formatTable(object, mode, _padLength, _depth)
+	-- 如果组件包含嵌套引用，则会溢出，此处检查并忽略
+	if type(object) == "table" and object.__ignoreDebug then
+		return "<ignored>"
+	end
+
 	mode = mode or FormatMode.Short
 	_padLength = _padLength or 0
 	_depth = _depth or 1
