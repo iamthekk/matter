@@ -53,6 +53,10 @@ function World.new()
 
 		-- Storage for `queryChanged`
 		_changedStorage = {},
+
+		-- Storage for `single`
+		_singleStorage = {},
+		_singleStorageById = {},
 	}, World)
 end
 
@@ -327,6 +331,8 @@ function World:clear()
 	self._entityMetatablesCache = {}
 	self._size = 0
 	self._changedStorage = {}
+	self._singleStorage = {}
+	self._singleStorageById = {}
 end
 
 --[=[
@@ -797,6 +803,15 @@ function World:_trackChanged(metatable, id, old, new)
 			storage[id] = record
 		end
 	end
+
+	-- clear singl caches
+	local components = self._singleStorageById[id]
+	if components then
+		for k, v in pairs(components) do
+			self._singleStorage[k] = nil
+		end
+		self._singleStorageById[id] = nil
+	end
 end
 
 --[=[
@@ -909,6 +924,30 @@ end
 ]=]
 function World:size()
 	return self._size
+end
+
+--[=[
+	Returns the single (equal to first) component.
+]=]
+function World:single(component)
+	if self._singleStorage[component] then
+		return self._singleStorage[component]
+	end
+
+	local queryResult = self:query(component)
+
+	local entityId, componentInstance = queryResult:next()
+
+	if entityId then
+		self._singleStorage[component] = componentInstance
+		if not self._singleStorageById[entityId] then
+			self._singleStorageById[entityId] = {}
+		end
+		self._singleStorageById[entityId][component] = true
+		return componentInstance
+	end
+
+	return nil
 end
 
 --[=[
