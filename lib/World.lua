@@ -931,23 +931,33 @@ end
 ]=]
 function World:single(component)
 	if self._singleStorage[component] then
-		return self._singleStorage[component]
+		return unpack(self._singleStorage[component])
 	end
 
 	local queryResult = self:query(component)
 
 	local entityId, componentInstance = queryResult:next()
-
 	if entityId then
-		self._singleStorage[component] = componentInstance
+		self._singleStorage[component] = { entityId, componentInstance }
 		if not self._singleStorageById[entityId] then
 			self._singleStorageById[entityId] = {}
 		end
 		self._singleStorageById[entityId][component] = true
-		return componentInstance
+		return entityId, componentInstance
 	end
 
 	return nil
+end
+
+--[=[
+	insert value in to component
+
+	will throw if component not find
+]=]
+function World:singleInsert(component, value: {})
+	local id, single = self:single(component)
+	assert(single)
+	self:insert(id, component(value))
 end
 
 --[=[
