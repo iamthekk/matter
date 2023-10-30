@@ -941,6 +941,8 @@ end
 
 --[=[
 	Returns the single (equal to first) component.
+	
+	return id,component instance
 ]=]
 function World:single(component)
 	if self._singleStorage[component] then

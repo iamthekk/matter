@@ -56,7 +56,7 @@ local function newComponent(name, defaultData)
 	component.__index = component
 
 	function component.new(...)
-		local data = nil
+		local data = {}
 		if defaultData then
 			if type(defaultData) == "function" then
 				data = defaultData(...)
