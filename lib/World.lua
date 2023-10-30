@@ -22,10 +22,20 @@ World.__index = World
 --[=[
 	Creates a new World.
 ]=]
-function World.new()
+function World.new(isReversed: boolean)
 	local firstStorage = {}
 
+	local nextId = 1
+	if isReversed then
+		nextId = -1
+	end
+
 	return setmetatable({
+		-- world:spawn时,是否逆序生成id,也就是说,id从-1开始
+		_isReversed = isReversed,
+
+		-- The next ID that will be assigned with World:spawn
+		_nextId = nextId,
 		-- List of maps from archetype string --> entity ID --> entity data
 		_storages = { firstStorage },
 		-- The most recent storage that has not been dirtied by an iterator
@@ -44,9 +54,6 @@ function World.new()
 		-- Cache of what entity archetypes have ever existed in the game. This is used for knowing
 		-- when to update the queryCache.
 		_entityArchetypeCache = {},
-
-		-- The next ID that will be assigned with World:spawn
-		_nextId = 1,
 
 		-- The total number of active entities in the world
 		_size = 0,
@@ -156,8 +163,14 @@ function World:spawnAt(id, ...)
 
 	self._size += 1
 
-	if id >= self._nextId then
-		self._nextId = id + 1
+	if self._isReversed then
+		if id <= self._nextId then
+			self._nextId = id - 1
+		end
+	else
+		if id >= self._nextId then
+			self._nextId = id + 1
+		end
 	end
 
 	local components = {}
