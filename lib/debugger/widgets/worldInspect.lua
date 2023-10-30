@@ -10,6 +10,8 @@ return function(plasma)
 
 		local cache, setCache = plasma.useState()
 		local debugComponent, setDebugComponent = plasma.useState()
+		local onlyServer, setOnlyServer = plasma.useState()
+		local onlyClient, setOnlyClient = plasma.useState()
 
 		local closed = plasma
 			.window({
@@ -22,7 +24,22 @@ return function(plasma)
 					plasma.label(world:size())
 
 					plasma.space(30)
-					skipIntersections = plasma.checkbox("Hide intersecting components"):checked()
+					skipIntersections = plasma.checkbox("Focus"):checked()
+
+					if game["Run Service"]:IsClient() then
+						local onlyServerWidget = plasma.checkbox("Server", { checked = onlyServer })
+						local onlyClientWidget = plasma.checkbox("Client", { checked = onlyClient })
+
+						if onlyServerWidget:clicked() then
+							setOnlyClient(false)
+							setOnlyServer(not onlyServer)
+						end
+
+						if onlyClientWidget:clicked() then
+							setOnlyClient(not onlyClient)
+							setOnlyServer(false)
+						end
+					end
 
 					if plasma.button("view raw"):clicked() then
 						table.clear(objectStack)
@@ -79,6 +96,14 @@ return function(plasma)
 						local intersectingData = {}
 
 						for entityId, data in world:query(debugComponent) do
+							if game["Run Service"]:IsClient() then
+								if onlyServer and entityId < 0 then
+									continue
+								end
+								if onlyClient and entityId > 0 then
+									continue
+								end
+							end
 							table.insert(items, {
 								entityId,
 								formatTable(data),
