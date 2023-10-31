@@ -65,6 +65,9 @@ local function newComponent(name, defaultData)
 				data = t[1] or {}
 				data = merge(defaultData, data)
 			end
+		else
+			local t = { ... }
+			data = t[1] or {}
 		end
 
 		return table.freeze(setmetatable(data, component))

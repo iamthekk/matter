@@ -334,6 +334,7 @@ function Debugger:autoInitialize(loop)
 	self.loop:addMiddleware(function(nextFn, eventName)
 		return function()
 			if eventName == "FixedUpdate" then
+				nextFn()
 				return
 			end
 			if not self._seenEvents[eventName] then

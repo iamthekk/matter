@@ -326,6 +326,15 @@ function World:despawn(id)
 	self._entityMetatablesCache[id] = nil
 	self:_transitionArchetype(id, nil)
 
+	-- clear singl caches
+	local components = self._singleStorageById[id]
+	if components then
+		for k, v in pairs(components) do
+			self._singleStorage[k] = nil
+		end
+		self._singleStorageById[id] = nil
+	end
+
 	self._size -= 1
 end
 
