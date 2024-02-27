@@ -18,7 +18,6 @@
   ],
   "scripts": {
     "merge": "merge_rojo_config",
-    "postinstall": "npm run merge && npm run doc:link",
     "doc:link": "symlink_modules_doc",
     "doc:fix": "fix_moonwave",
     "doc:dev": "moonwave dev --no-open",
