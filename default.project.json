@@ -1,24 +1,6 @@
 {
-  "name": "project",
-  "globIgnorePaths": [
-    "_genConfigs/*.json"
-  ],
+  "name": "Matter",
   "tree": {
-    "$className": "DataModel",
-    "ReplicatedStorage": {
-      "$className": "ReplicatedStorage",
-      "Packages": {
-        "$className": "Folder",
-        "Matter": {
-          "$path": "lib"
-        },
-        "plasma": {
-          "$path": "packages/plasma"
-        },
-        "rewire": {
-          "$path": "packages/rewire"
-        }
-      }
-    }
+    "$path": "lib"
   }
 }

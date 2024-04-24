@@ -1,6 +1,6 @@
 {
-  "name": "matter",
-  "version": "1.0.16",
+  "name": "wdm.matter",
+  "version": "1.0.17",
   "description": "<div align=\"center\">\r \t<img src=\".moonwave/static/logo.svg\" alt=\"Matter\" width=\"600\" />\r \t<br><br><br>\r \t<p>A modern ECS library for Roblox</p>\r \t<a href=\"https://eryn.io/matter\"><strong>View docs &rarr;</strong></a>\r   <br><br><br>",
   "main": "index.js",
   "directories": {
@@ -10,14 +10,12 @@
     "test": "tests"
   },
   "files": [
-    "build",
     "lib",
-    "packages",
-    "moonwave.toml",
     "default.project.json"
   ],
   "scripts": {
-    "merge": "merge_rojo_config",
+    "postinstall": "del-cli ../../Packages/wdm.matter --force&& lnk ../wdm.matter ../../Packages ",
+    "postuninstall": "del-cli ../../Packages/wdm.matter --force",
     "doc:link": "symlink_modules_doc",
     "doc:fix": "fix_moonwave",
     "doc:dev": "moonwave dev --no-open",
@@ -25,7 +23,8 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "wtm.tangsengscripts": "^1.0.10"
+  "dependencies": {
+    "wdm.plasma": "^0.4.1-test1",
+    "wdm.rewire": "^0.3.7"
   }
 }
